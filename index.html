@@ -2,14 +2,57 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Антонимы: прилагательные</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 10px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 15px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+      word-break: break-word;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      font-size: 16px;
+      margin: 3px 0;
+      box-sizing: border-box;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      margin: 5px 0;
+      font-size: 16px;
+      background: #1976d2;
+      color: white;
+      border: none;
+      border-radius: 6px;
+    }
+    button:hover {
+      background: #1565c0;
+      cursor: pointer;
+    }
+    #result {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+  </style>
   <script>
     let pairs = [];
     let mode = "table"; // table | single
     let currentIndex = 0;
 
     async function loadData() {
-      const res = await fetch("pairs.json"); // наш новый JSON
+      const res = await fetch("pairs.json");
       pairs = await res.json();
       render();
     }
@@ -26,7 +69,6 @@
 
       if (mode === "table") {
         const table = document.createElement("table");
-        table.border = "1";
         table.innerHTML = "<tr><th>Русский (антонимы)</th><th>Немецкий (ввод)</th><th>Проверка</th></tr>";
 
         pairs.forEach((p, i) => {
