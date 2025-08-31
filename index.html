@@ -32,10 +32,10 @@
         pairs.forEach((p, i) => {
           const row = document.createElement("tr");
           row.innerHTML = `
-            <td>${p.ru1} — ${p.ru2}</td>
+            <td>${p.ua1} — ${p.ua2}</td>
             <td>
-              <input type="text" id="input_${i}_1" placeholder="${p.ru1}"> 
-              <input type="text" id="input_${i}_2" placeholder="${p.ru2}">
+              <input type="text" id="input_${i}_1" placeholder="${p.ua1}"> 
+              <input type="text" id="input_${i}_2" placeholder="${p.ua2}">
             </td>
             <td id="check_${i}"></td>
           `;
@@ -67,9 +67,9 @@
         const p = pairs[currentIndex];
         const div = document.createElement("div");
         div.innerHTML = `
-          <h3>${p.ru1} — ${p.ru2}</h3>
-          <input type="text" id="answer1" placeholder="${p.ru1}"> 
-          <input type="text" id="answer2" placeholder="${p.ru2}">
+          <h3>${p.ua1} — ${p.ua2}</h3>
+          <input type="text" id="answer1" placeholder="${p.ua1}"> 
+          <input type="text" id="answer2" placeholder="${p.ua2}">
           <button onclick="checkSingle()">Проверить</button>
           <p id="result"></p>
         `;
