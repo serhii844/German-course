@@ -1,0 +1,27 @@
+.menu-btn.active,
+.submenu-btn.active,
+.subsubmenu-btn.active {
+  background-color: #ffd54f;
+  color: #000;
+  font-weight: bold;
+}
+
+.menu, .submenu {
+  margin: 5px 0;
+}
+
+button {
+  margin: 2px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+table {
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+table, th, td {
+  border: 1px solid #999;
+  padding: 5px;
+}
