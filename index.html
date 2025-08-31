@@ -3,207 +3,156 @@
 <head>
   <meta charset="UTF-8">
   <title>Integrationskurs</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
-      font-family: 'Montserrat', Arial, sans-serif;
+      font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      background: #eef1f5;
-      color: #2c3e50;
+      text-align: center;
+      background: #f9f9f9;
     }
     header {
-      background: #2980b9;
-      padding: 18px 0;
-      text-align: center;
-      box-shadow: 0 2px 8px #a5b6d8;
-      color: #fff;
-      font-size: 2em;
-      font-weight: bold;
-      letter-spacing: 2px;
+      background: #004466;
+      color: white;
+      padding: 10px;
+      font-size: 20px;
     }
-    main {
-      padding: 1em;
-      max-width: 800px;
-      margin: 0 auto;
+    .top-menu, .sub-menu {
+      margin: 10px 0;
     }
-    .mode-switcher {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    button {
-      background: #3498db;
-      color: #fff;
+    .btn {
+      margin: 5px;
+      padding: 10px 15px;
+      font-size: 16px;
       border: none;
-      font-size: 1em;
       border-radius: 8px;
-      padding: 10px 20px;
       cursor: pointer;
-      box-shadow: 0 2px 8px #b2bec3;
-      transition: background 0.2s;
-      margin-bottom: 5px;
+      background: #008CBA;
+      color: white;
     }
-    button:hover {
-      background: #2162a0;
+    .btn:hover {
+      background: #006f94;
     }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px #dbe2ef;
-      overflow: hidden;
+    .hidden {
+      display: none;
     }
-    th, td {
-      padding: 13px 8px;
-      text-align: center;
-      font-size: 1em;
-    }
-    th {
-      background: #9dc2f3;
-      color: #215477;
-    }
-    tr:nth-child(even) {
-      background: #f2f7fc;
-    }
-    input[type="text"] {
-      padding: 8px;
-      font-size: 1em;
-      border: 1px solid #b2bec3;
-      border-radius: 7px;
-      width: 80%;
-      margin: 6px 0;
-    }
-    .navigation {
-      display: flex;
-      gap: 14px;
-      justify-content: center;
+    .content {
       margin-top: 20px;
+      padding: 10px;
     }
-    @media (max-width: 600px) {
-      main { padding: 4px; }
-      table, th, td { font-size: 14px; padding: 6px; }
-      .mode-switcher button { font-size: 0.9em; padding: 8px 12px; }
+    input {
+      margin: 5px;
+      padding: 8px;
+      font-size: 16px;
+      width: 120px;
     }
   </style>
 </head>
 <body>
-  <header>
-    Integrationskurs
-  </header>
-  <main>
-    <div class="mode-switcher">
-      <button onclick="switchMode('table')">
-        Режим: таблиця / Modus: Tabelle
-      </button>
-      <button onclick="switchMode('single')">
-        Режим: по одній парі / Modus: Ein Paar
-      </button>
-    </div>
-    <div id="app"></div>
-  </main>
+
+  <header>Integrationskurs</header>
+
+  <!-- Верхнее меню -->
+  <div class="top-menu">
+    <button class="btn" onclick="showSection('words')">Слова / Wörter</button>
+    <button class="btn" onclick="showSection('communication')">Спілкування / Kommunikation</button>
+  </div>
+
+  <!-- Подменю для слов -->
+  <div id="submenu-words" class="sub-menu">
+    <button class="btn" onclick="showWordsSection('adjectives')">Прикметники і Прислівники (антоніми) / Adjektive und Adverbien (Antonyme)</button>
+    <button class="btn" onclick="showWordsSection('numerals')">Числівники / Numerale</button>
+    <button class="btn" onclick="showWordsSection('nouns')">Іменники / Substantive</button>
+    <button class="btn" onclick="showWordsSection('verbs')">Дієслова / Verben</button>
+  </div>
+
+  <!-- Контент -->
+  <div id="content" class="content"></div>
+
   <script>
     let pairs = [];
-    let mode = "table";
-    let currentIndex = 0;
 
-    async function loadData() {
-      const res = await fetch("pairs.json");
-      pairs = await res.json();
-      render();
+    // Загрузка JSON с парами
+    async function loadPairs() {
+      const response = await fetch("pairs.json");
+      pairs = await response.json();
+      startAdjectives();
     }
 
-    function switchMode(newMode) {
-      mode = newMode;
-      currentIndex = 0;
-      render();
-    }
-
-    function render() {
-      const app = document.getElementById("app");
-      app.innerHTML = "";
-
-      if (mode === "table") {
-        const table = document.createElement("table");
-        table.innerHTML = `
-          <tr>
-            <th>Українська / Ukrainisch</th>
-            <th>Німецька / Deutsch</th>
-            <th>Перевірка / Überprüfung</th>
-          </tr>
-        `;
-        pairs.forEach((p, i) => {
-          const row = document.createElement("tr");
-          row.innerHTML = `
-            <td>${p.ua1} — ${p.ua2}</td>
-            <td>
-              <input type="text" id="input_${i}" placeholder="Введіть переклад / Übersetzung eingeben">
-            </td>
-            <td>
-              <button onclick="check(${i})">Перевірити / Überprüfen</button>
-            </td>
-          `;
-          table.appendChild(row);
-        });
-        app.appendChild(table);
-      } else if (mode === "single") {
-        if (pairs.length === 0) return;
-        const p = pairs[currentIndex];
-        const wrap = document.createElement("div");
-        wrap.style.textAlign = "center";
-        wrap.innerHTML = `
-          <div style="font-size: 1.2em; margin-bottom: 20px;">
-            ${p.ua1} — ${p.ua2}
-          </div>
-          <input id="single_input" type="text" placeholder="Введіть переклад / Übersetzung eingeben">
-          <div class="navigation">
-            <button onclick="prevPair()">Попередня пара / Vorheriges Paar</button>
-            <button onclick="check(currentIndex)">Перевірити / Überprüfen</button>
-            <button onclick="nextPair()">Наступна пара / Nächstes Paar</button>
-          </div>
-        `;
-        app.appendChild(wrap);
-      }
-    }
-
-    function check(i) {
-      let input;
-      if (mode === "table") {
-        input = document.getElementById("input_" + i).value.trim().toLowerCase();
-        let correct = pairs[i].de1.toLowerCase() + " / " + pairs[i].de2.toLowerCase();
-        if (
-          input === pairs[i].de1.toLowerCase() ||
-          input === pairs[i].de2.toLowerCase()
-        ) {
-          alert("Правильно! / Richtig!");
-        } else {
-          alert("Неправильно. / Falsch.\nПравильна відповідь / Richtige Antwort:\n" + correct);
-        }
+    // Управление верхним меню
+    function showSection(section) {
+      if (section === "words") {
+        document.getElementById("submenu-words").classList.remove("hidden");
+        showWordsSection("adjectives");
       } else {
-        input = document.getElementById("single_input").value.trim().toLowerCase();
-        let correct = pairs[i].de1.toLowerCase() + " / " + pairs[i].de2.toLowerCase();
-        if (
-          input === pairs[i].de1.toLowerCase() ||
-          input === pairs[i].de2.toLowerCase()
-        ) {
-          alert("Правильно! / Richtig!");
-        } else {
-          alert("Неправильно. / Falsch.\nПравильна відповідь / Richtige Antwort:\n" + correct);
-        }
+        document.getElementById("submenu-words").classList.add("hidden");
+        document.getElementById("content").innerHTML = "<p>Тут буде контент...</p>";
       }
     }
-    function nextPair() {
-      if (currentIndex < pairs.length - 1) currentIndex++;
-      render();
+
+    // Управление подменю слов
+    function showWordsSection(type) {
+      if (type === "adjectives") {
+        startAdjectives();
+      } else {
+        document.getElementById("content").innerHTML = "<p>Тут буде контент...</p>";
+      }
     }
-    function prevPair() {
-      if (currentIndex > 0) currentIndex--;
-      render();
+
+    // Функционал для антонимов
+    function startAdjectives() {
+      let html = `
+        <button class="btn" onclick="showAll()">Всі слова / Alle Wörter</button>
+        <button class="btn" onclick="startTest()">Перевірка / Test</button>
+        <div id="task"></div>
+      `;
+      document.getElementById("content").innerHTML = html;
     }
-    loadData();
+
+    function showAll() {
+      let html = "<h3>Всі пари:</h3>";
+      pairs.forEach(p => {
+        html += `<p>${p.ru1} – ${p.ru2} → ${p.de1} – ${p.de2}</p>`;
+      });
+      document.getElementById("task").innerHTML = html;
+    }
+
+    function startTest() {
+      let index = 0;
+      let html = `
+        <p>Напишіть переклад:</p>
+        <div id="question"></div>
+        <input type="text" id="ans1" placeholder="Переклад 1">
+        <input type="text" id="ans2" placeholder="Переклад 2">
+        <button class="btn" onclick="checkAnswer()">Перевірити / Prüfen</button>
+        <div id="feedback"></div>
+      `;
+      document.getElementById("task").innerHTML = html;
+      showQuestion();
+
+      function showQuestion() {
+        document.getElementById("question").innerText =
+          pairs[index].ru1 + " – " + pairs[index].ru2;
+        document.getElementById("ans1").value = "";
+        document.getElementById("ans2").value = "";
+        document.getElementById("feedback").innerText = "";
+      }
+
+      window.checkAnswer = function() {
+        let a1 = document.getElementById("ans1").value.trim().toLowerCase();
+        let a2 = document.getElementById("ans2").value.trim().toLowerCase();
+        let ok1 = a1 === pairs[index].de1.toLowerCase();
+        let ok2 = a2 === pairs[index].de2.toLowerCase();
+        document.getElementById("feedback").innerText =
+          (ok1 && ok2) ? "✅ Правильно / Richtig" : `❌ Неправильно / Falsch ( ${pairs[index].de1} – ${pairs[index].de2} )`;
+        index = (index + 1) % pairs.length;
+        setTimeout(showQuestion, 1500);
+      };
+    }
+
+    // Запуск
+    loadPairs();
   </script>
 </body>
 </html>
