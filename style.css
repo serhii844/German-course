@@ -17,6 +17,12 @@ header {
   margin: 10px 0;
 }
 
+hr {
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 0;
+}
+
 .btn {
   margin: 5px;
   padding: 10px 15px;
@@ -30,6 +36,12 @@ header {
 
 .btn:hover {
   background: #006f94;
+}
+
+.btn.active {
+  background: #FFD54F; /* Жёлтый для активных кнопок */
+  color: #333;
+  font-weight: bold;
 }
 
 .hidden {
