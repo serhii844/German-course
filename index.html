@@ -13,17 +13,21 @@
 
   <!-- Верхнее меню -->
   <div class="top-menu">
-    <button class="btn" onclick="showSection('words')">Слова / Wörter</button>
-    <button class="btn" onclick="showSection('communication')">Спілкування / Kommunikation</button>
+    <button id="btn-words" class="btn active" onclick="showSection('words')">Слова / Wörter</button>
+    <button id="btn-communication" class="btn" onclick="showSection('communication')">Спілкування / Kommunikation</button>
   </div>
+
+  <hr>
 
   <!-- Подменю для слов -->
   <div id="submenu-words" class="sub-menu">
-    <button class="btn" onclick="showWordsSection('adjectives')">Прикметники і Прислівники (антоніми) / Adjektive und Adverbien (Antonyme)</button>
-    <button class="btn" onclick="showWordsSection('numerals')">Числівники / Numerale</button>
-    <button class="btn" onclick="showWordsSection('nouns')">Іменники / Substantive</button>
-    <button class="btn" onclick="showWordsSection('verbs')">Дієслова / Verben</button>
+    <button id="btn-adjectives" class="btn active" onclick="showWordsSection('adjectives')">Прикметники і Прислівники (антоніми) / Adjektive und Adverbien (Antonyme)</button>
+    <button id="btn-numerals" class="btn" onclick="showWordsSection('numerals')">Числівники / Numerale</button>
+    <button id="btn-nouns" class="btn" onclick="showWordsSection('nouns')">Іменники / Substantive</button>
+    <button id="btn-verbs" class="btn" onclick="showWordsSection('verbs')">Дієслова / Verben</button>
   </div>
+
+  <hr>
 
   <!-- Контент -->
   <div id="content" class="content"></div>
@@ -37,21 +41,41 @@
       startAdjectives();
     }
 
+    function resetActiveButtons(menu) {
+      if (menu === "top") {
+        document.querySelectorAll(".top-menu .btn").forEach(b => b.classList.remove("active"));
+      } else if (menu === "sub") {
+        document.querySelectorAll(".sub-menu .btn").forEach(b => b.classList.remove("active"));
+      }
+    }
+
     function showSection(section) {
+      resetActiveButtons("top");
       if (section === "words") {
+        document.getElementById("btn-words").classList.add("active");
         document.getElementById("submenu-words").classList.remove("hidden");
         showWordsSection("adjectives");
       } else {
+        document.getElementById("btn-communication").classList.add("active");
         document.getElementById("submenu-words").classList.add("hidden");
-        document.getElementById("content").innerHTML = "<p>Тут буде контент...</p>";
+        document.getElementById("content").innerHTML = "<p>Тут буде контент (Спілкування / Kommunikation)</p>";
       }
     }
 
     function showWordsSection(type) {
+      resetActiveButtons("sub");
       if (type === "adjectives") {
+        document.getElementById("btn-adjectives").classList.add("active");
         startAdjectives();
-      } else {
-        document.getElementById("content").innerHTML = "<p>Тут буде контент...</p>";
+      } else if (type === "numerals") {
+        document.getElementById("btn-numerals").classList.add("active");
+        document.getElementById("content").innerHTML = "<p>Тут буде контент (Числівники / Numerale)</p>";
+      } else if (type === "nouns") {
+        document.getElementById("btn-nouns").classList.add("active");
+        document.getElementById("content").innerHTML = "<p>Тут буде контент (Іменники / Substantive)</p>";
+      } else if (type === "verbs") {
+        document.getElementById("btn-verbs").classList.add("active");
+        document.getElementById("content").innerHTML = "<p>Тут буде контент (Дієслова / Verben)</p>";
       }
     }
 
@@ -67,7 +91,7 @@
     function showAll() {
       let html = "<h3>Всі пари:</h3>";
       pairs.forEach(p => {
-        html += `<p>${p.ru1} – ${p.ru2} → ${p.de1} – ${p.de2}</p>`;
+        html += `<p>${p.ua1} – ${p.ua2} → ${p.de1} – ${p.de2}</p>`;
       });
       document.getElementById("task").innerHTML = html;
     }
@@ -87,7 +111,7 @@
 
       function showQuestion() {
         document.getElementById("question").innerText =
-          pairs[index].ru1 + " – " + pairs[index].ru2;
+          pairs[index].ua1 + " – " + pairs[index].ua2;
         document.getElementById("ans1").value = "";
         document.getElementById("ans2").value = "";
         document.getElementById("feedback").innerText = "";
