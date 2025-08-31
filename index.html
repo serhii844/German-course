@@ -4,50 +4,8 @@
   <meta charset="UTF-8">
   <title>Integrationskurs</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      text-align: center;
-      background: #f9f9f9;
-    }
-    header {
-      background: #004466;
-      color: white;
-      padding: 10px;
-      font-size: 20px;
-    }
-    .top-menu, .sub-menu {
-      margin: 10px 0;
-    }
-    .btn {
-      margin: 5px;
-      padding: 10px 15px;
-      font-size: 16px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      background: #008CBA;
-      color: white;
-    }
-    .btn:hover {
-      background: #006f94;
-    }
-    .hidden {
-      display: none;
-    }
-    .content {
-      margin-top: 20px;
-      padding: 10px;
-    }
-    input {
-      margin: 5px;
-      padding: 8px;
-      font-size: 16px;
-      width: 120px;
-    }
-  </style>
+  <!-- Подключаем внешний CSS -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -73,14 +31,12 @@
   <script>
     let pairs = [];
 
-    // Загрузка JSON с парами
     async function loadPairs() {
       const response = await fetch("pairs.json");
       pairs = await response.json();
       startAdjectives();
     }
 
-    // Управление верхним меню
     function showSection(section) {
       if (section === "words") {
         document.getElementById("submenu-words").classList.remove("hidden");
@@ -91,7 +47,6 @@
       }
     }
 
-    // Управление подменю слов
     function showWordsSection(type) {
       if (type === "adjectives") {
         startAdjectives();
@@ -100,7 +55,6 @@
       }
     }
 
-    // Функционал для антонимов
     function startAdjectives() {
       let html = `
         <button class="btn" onclick="showAll()">Всі слова / Alle Wörter</button>
@@ -151,7 +105,6 @@
       };
     }
 
-    // Запуск
     loadPairs();
   </script>
 </body>
