@@ -13,16 +13,16 @@
 
   <!-- Верхнее меню -->
   <div class="top-menu">
-    <button class="btn" onclick="showSection('words')">Слова / Wörter</button>
-    <button class="btn" onclick="showSection('communication')">Спілкування / Kommunikation</button>
+    <button class="btn" onclick="showSection('words', this)">Слова / Wörter</button>
+    <button class="btn" onclick="showSection('communication', this)">Спілкування / Kommunikation</button>
   </div>
 
   <!-- Подменю для слов -->
-  <div id="submenu-words" class="sub-menu">
-    <button class="btn" onclick="showWordsSection('adjectives')">Прикметники і Прислівники (антоніми) / Adjektive und Adverbien (Antonyme)</button>
-    <button class="btn" onclick="showWordsSection('numerals')">Числівники / Numerale</button>
-    <button class="btn" onclick="showWordsSection('nouns')">Іменники / Substantive</button>
-    <button class="btn" onclick="showWordsSection('verbs')">Дієслова / Verben</button>
+  <div id="submenu-words" class="sub-menu hidden">
+    <button class="btn" onclick="showWordsSection('adjectives', this)">Прикметники і Прислівники (антоніми) / Adjektive und Adverbien (Antonyme)</button>
+    <button class="btn" onclick="showWordsSection('numerals', this)">Числівники / Numerale</button>
+    <button class="btn" onclick="showWordsSection('nouns', this)">Іменники / Substantive</button>
+    <button class="btn" onclick="showWordsSection('verbs', this)">Дієслова / Verben</button>
   </div>
 
   <!-- Контент -->
@@ -37,17 +37,28 @@
       startAdjectives();
     }
 
-    function showSection(section) {
+    function highlightButton(button) {
+      // снимаем подсветку со всех кнопок
+      document.querySelectorAll(".btn").forEach(btn => btn.classList.remove("active"));
+      // подсвечиваем только нажатую
+      if (button) button.classList.add("active");
+    }
+
+    function showSection(section, btn) {
+      highlightButton(btn);
+
       if (section === "words") {
         document.getElementById("submenu-words").classList.remove("hidden");
-        showWordsSection("adjectives");
+        showWordsSection("adjectives", document.querySelector('#submenu-words .btn'));
       } else {
         document.getElementById("submenu-words").classList.add("hidden");
         document.getElementById("content").innerHTML = "<p>Тут буде контент...</p>";
       }
     }
 
-    function showWordsSection(type) {
+    function showWordsSection(type, btn) {
+      highlightButton(btn);
+
       if (type === "adjectives") {
         startAdjectives();
       } else {
@@ -57,52 +68,20 @@
 
     function startAdjectives() {
       let html = `
-        <button class="btn" onclick="showAll()">Всі слова / Alle Wörter</button>
-        <button class="btn" onclick="startTest()">Перевірка / Test</button>
-        <div id="task"></div>
+        <button class="btn" onclick="showAll(this)">Всі слова / Alle Wörter</button>
+        <button class="btn" onclick="showOpposites(this)">Антоніми / Antonyme</button>
       `;
       document.getElementById("content").innerHTML = html;
     }
 
-    function showAll() {
-      let html = "<h3>Всі пари:</h3>";
-      pairs.forEach(p => {
-        html += `<p>${p.ru1} – ${p.ru2} → ${p.de1} – ${p.de2}</p>`;
-      });
-      document.getElementById("task").innerHTML = html;
+    function showAll(btn) {
+      highlightButton(btn);
+      document.getElementById("content").innerHTML = "<p>Тут будуть всі слова...</p>";
     }
 
-    function startTest() {
-      let index = 0;
-      let html = `
-        <p>Напишіть переклад:</p>
-        <div id="question"></div>
-        <input type="text" id="ans1" placeholder="Переклад 1">
-        <input type="text" id="ans2" placeholder="Переклад 2">
-        <button class="btn" onclick="checkAnswer()">Перевірити / Prüfen</button>
-        <div id="feedback"></div>
-      `;
-      document.getElementById("task").innerHTML = html;
-      showQuestion();
-
-      function showQuestion() {
-        document.getElementById("question").innerText =
-          pairs[index].ru1 + " – " + pairs[index].ru2;
-        document.getElementById("ans1").value = "";
-        document.getElementById("ans2").value = "";
-        document.getElementById("feedback").innerText = "";
-      }
-
-      window.checkAnswer = function() {
-        let a1 = document.getElementById("ans1").value.trim().toLowerCase();
-        let a2 = document.getElementById("ans2").value.trim().toLowerCase();
-        let ok1 = a1 === pairs[index].de1.toLowerCase();
-        let ok2 = a2 === pairs[index].de2.toLowerCase();
-        document.getElementById("feedback").innerText =
-          (ok1 && ok2) ? "✅ Правильно / Richtig" : `❌ Неправильно / Falsch ( ${pairs[index].de1} – ${pairs[index].de2} )`;
-        index = (index + 1) % pairs.length;
-        setTimeout(showQuestion, 1500);
-      };
+    function showOpposites(btn) {
+      highlightButton(btn);
+      document.getElementById("content").innerHTML = "<p>Тут будуть антоніми...</p>";
     }
 
     loadPairs();
