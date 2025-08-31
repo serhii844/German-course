@@ -1,147 +1,111 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="uk">
 <head>
   <meta charset="UTF-8">
+  <title>Integrationskurs</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Антонимы: прилагательные</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      margin: 10px;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 15px;
-    }
-    th, td {
-      border: 1px solid #ccc;
-      padding: 8px;
-      text-align: center;
-      word-break: break-word;
-    }
-    input {
-      width: 100%;
-      padding: 8px;
-      font-size: 16px;
-      margin: 3px 0;
-      box-sizing: border-box;
-    }
-    button {
-      width: 100%;
-      padding: 12px;
-      margin: 5px 0;
-      font-size: 16px;
-      background: #1976d2;
-      color: white;
-      border: none;
-      border-radius: 6px;
-    }
-    button:hover {
-      background: #1565c0;
-      cursor: pointer;
-    }
-    #result {
-      margin-top: 10px;
-      font-weight: bold;
-    }
-  </style>
-  <script>
-    let pairs = [];
-    let mode = "table"; // table | single
-    let currentIndex = 0;
-
-    async function loadData() {
-      const res = await fetch("pairs.json");
-      pairs = await res.json();
-      render();
-    }
-
-    function switchMode(newMode) {
-      mode = newMode;
-      currentIndex = 0;
-      render();
-    }
-
-    function render() {
-      const app = document.getElementById("app");
-      app.innerHTML = "";
-
-      if (mode === "table") {
-        const table = document.createElement("table");
-        table.innerHTML = "<tr><th>Русский (антонимы)</th><th>Немецкий (ввод)</th><th>Проверка</th></tr>";
-
-        pairs.forEach((p, i) => {
-          const row = document.createElement("tr");
-          row.innerHTML = `
-            <td>${p.ua1} — ${p.ua2}</td>
-            <td>
-              <input type="text" id="input_${i}_1" placeholder="${p.ua1}"> 
-              <input type="text" id="input_${i}_2" placeholder="${p.ua2}">
-            </td>
-            <td id="check_${i}"></td>
-          `;
-          table.appendChild(row);
-        });
-
-        const btn = document.createElement("button");
-        btn.innerText = "Проверить всё";
-        btn.onclick = () => {
-          pairs.forEach((p, i) => {
-            const v1 = document.getElementById(`input_${i}_1`).value.trim().toLowerCase();
-            const v2 = document.getElementById(`input_${i}_2`).value.trim().toLowerCase();
-            const ok1 = v1 === p.de1.toLowerCase();
-            const ok2 = v2 === p.de2.toLowerCase();
-            document.getElementById(`check_${i}`).innerText =
-              (ok1 && ok2) ? "✅" : `❌ (${p.de1}, ${p.de2})`;
-          });
-        };
-
-        app.appendChild(table);
-        app.appendChild(btn);
-      }
-
-      if (mode === "single") {
-        if (currentIndex >= pairs.length) {
-          app.innerHTML = "<h3>Все пары пройдены!</h3>";
-          return;
-        }
-        const p = pairs[currentIndex];
-        const div = document.createElement("div");
-        div.innerHTML = `
-          <h3>${p.ua1} — ${p.ua2}</h3>
-          <input type="text" id="answer1" placeholder="${p.ua1}"> 
-          <input type="text" id="answer2" placeholder="${p.ua2}">
-          <button onclick="checkSingle()">Проверить</button>
-          <p id="result"></p>
-        `;
-        app.appendChild(div);
-      }
-    }
-
-    function checkSingle() {
-      const p = pairs[currentIndex];
-      const v1 = document.getElementById("answer1").value.trim().toLowerCase();
-      const v2 = document.getElementById("answer2").value.trim().toLowerCase();
-      const result = document.getElementById("result");
-
-      if (v1 === p.de1.toLowerCase() && v2 === p.de2.toLowerCase()) {
-        result.innerText = "✅ Правильно!";
-      } else {
-        result.innerText = `❌ Неправильно. Правильно: ${p.de1} — ${p.de2}`;
-      }
-      currentIndex++;
-      setTimeout(render, 1500);
-    }
-
-    window.onload = loadData;
-  </script>
+  <!-- Подключаем внешний CSS -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Антонимы: прилагательные</h1>
-  <button onclick="switchMode('table')">Режим: таблица</button>
-  <button onclick="switchMode('single')">Режим: по одной паре</button>
-  <div id="app"></div>
+
+  <header>Integrationskurs</header>
+
+  <!-- Верхнее меню -->
+  <div class="top-menu">
+    <button class="btn" onclick="showSection('words')">Слова / Wörter</button>
+    <button class="btn" onclick="showSection('communication')">Спілкування / Kommunikation</button>
+  </div>
+
+  <!-- Подменю для слов -->
+  <div id="submenu-words" class="sub-menu">
+    <button class="btn" onclick="showWordsSection('adjectives')">Прикметники і Прислівники (антоніми) / Adjektive und Adverbien (Antonyme)</button>
+    <button class="btn" onclick="showWordsSection('numerals')">Числівники / Numerale</button>
+    <button class="btn" onclick="showWordsSection('nouns')">Іменники / Substantive</button>
+    <button class="btn" onclick="showWordsSection('verbs')">Дієслова / Verben</button>
+  </div>
+
+  <!-- Контент -->
+  <div id="content" class="content"></div>
+
+  <script>
+    let pairs = [];
+
+    async function loadPairs() {
+      const response = await fetch("pairs.json");
+      pairs = await response.json();
+      startAdjectives();
+    }
+
+    function showSection(section) {
+      if (section === "words") {
+        document.getElementById("submenu-words").classList.remove("hidden");
+        showWordsSection("adjectives");
+      } else {
+        document.getElementById("submenu-words").classList.add("hidden");
+        document.getElementById("content").innerHTML = "<p>Тут буде контент...</p>";
+      }
+    }
+
+    function showWordsSection(type) {
+      if (type === "adjectives") {
+        startAdjectives();
+      } else {
+        document.getElementById("content").innerHTML = "<p>Тут буде контент...</p>";
+      }
+    }
+
+    function startAdjectives() {
+      let html = `
+        <button class="btn" onclick="showAll()">Всі слова / Alle Wörter</button>
+        <button class="btn" onclick="startTest()">Перевірка / Test</button>
+        <div id="task"></div>
+      `;
+      document.getElementById("content").innerHTML = html;
+    }
+
+    function showAll() {
+      let html = "<h3>Всі пари:</h3>";
+      pairs.forEach(p => {
+        html += `<p>${p.ru1} – ${p.ru2} → ${p.de1} – ${p.de2}</p>`;
+      });
+      document.getElementById("task").innerHTML = html;
+    }
+
+    function startTest() {
+      let index = 0;
+      let html = `
+        <p>Напишіть переклад:</p>
+        <div id="question"></div>
+        <input type="text" id="ans1" placeholder="Переклад 1">
+        <input type="text" id="ans2" placeholder="Переклад 2">
+        <button class="btn" onclick="checkAnswer()">Перевірити / Prüfen</button>
+        <div id="feedback"></div>
+      `;
+      document.getElementById("task").innerHTML = html;
+      showQuestion();
+
+      function showQuestion() {
+        document.getElementById("question").innerText =
+          pairs[index].ru1 + " – " + pairs[index].ru2;
+        document.getElementById("ans1").value = "";
+        document.getElementById("ans2").value = "";
+        document.getElementById("feedback").innerText = "";
+      }
+
+      window.checkAnswer = function() {
+        let a1 = document.getElementById("ans1").value.trim().toLowerCase();
+        let a2 = document.getElementById("ans2").value.trim().toLowerCase();
+        let ok1 = a1 === pairs[index].de1.toLowerCase();
+        let ok2 = a2 === pairs[index].de2.toLowerCase();
+        document.getElementById("feedback").innerText =
+          (ok1 && ok2) ? "✅ Правильно / Richtig" : `❌ Неправильно / Falsch ( ${pairs[index].de1} – ${pairs[index].de2} )`;
+        index = (index + 1) % pairs.length;
+        setTimeout(showQuestion, 1500);
+      };
+    }
+
+    loadPairs();
+  </script>
 </body>
 </html>
-
