@@ -1,49 +1,90 @@
+/* База */
+:root {
+  --accent: #008CBA;
+  --accent-hover: #006f94;
+  --active: #FFD54F; /* жёлтый для активных */
+  --border: #ccc;
+  --bg: #f9f9f9;
+}
+
+* { box-sizing: border-box; }
 body {
-  font-family: Arial, sans-serif;
   margin: 0;
-  padding: 0;
-  text-align: center;
-  background: #f9f9f9;
+  font-family: Arial, sans-serif;
+  background: var(--bg);
 }
 
-header {
-  background: #004466;
-  color: white;
+/* Меню */
+.menu, .submenu, .subsubmenu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
   padding: 10px;
-  font-size: 20px;
+  background: #fff;
 }
 
-.top-menu, .sub-menu {
-  margin: 10px 0;
+hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 0;
 }
 
+/* Кнопки */
 .btn {
-  margin: 5px;
-  padding: 10px 15px;
+  padding: 10px 14px;
   font-size: 16px;
-  border: none;
-  border-radius: 8px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background: var(--accent);
+  color: #fff;
   cursor: pointer;
-  background: #008CBA;
-  color: white;
+  transition: background .2s ease, color .2s ease, border-color .2s ease;
+}
+.btn:hover { background: var(--accent-hover); }
+
+.btn.active {
+  background: var(--active);
+  color: #222;
+  border-color: #e0b800;
+  font-weight: bold;
 }
 
-.btn:hover {
-  background: #006f94;
-}
-
-.hidden {
-  display: none;
-}
-
+/* Контент */
 .content {
-  margin-top: 20px;
-  padding: 10px;
+  padding: 16px;
 }
 
-input {
-  margin: 5px;
+/* Таблица */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+  background: #fff;
+}
+th, td {
+  border: 1px solid var(--border);
+  padding: 8px;
+  text-align: center;
+  word-break: break-word;
+}
+th { background: #f2f2f2; }
+
+/* Поля ввода */
+input[type="text"] {
+  width: 100%;
   padding: 8px;
   font-size: 16px;
-  width: 120px;
+}
+
+/* Кнопка проверки внутри контента */
+.action {
+  width: 100%;
+  max-width: 360px;
+  margin: 12px auto 0;
+  display: block;
+}
+
+/* Мобайл: кнопки на всю ширину */
+@media (max-width: 600px) {
+  .btn { flex: 1 1 100%; }
 }
