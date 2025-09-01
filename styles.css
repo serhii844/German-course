@@ -1,37 +1,40 @@
-/* styles.css — обновлён: убраны горизонтальные отступы от краёв экрана; 
-   во второй (средней) колонке инпуты снова расположены в две строки с вертикальным отступом. */
-/* Базовый сброс */
+/* Сброс и базовые стили */
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
-body{font-family:system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:#f6f8fb;color:#0f1720;line-height:1.45;padding:8px 0}
+body{
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+  background:#f6f8fb;
+  color:#0f1720;
+  line-height:1.45;
+  padding:0; /* без боковых отступов */
+}
 
-/* Контейнер: убраны боковые отступы (чтобы контент прилегал к краям на узких экранах) */
-.container{max-width:980px;margin:12px auto;padding:12px 0;width:100%}
+/* Контейнер */
+.container{max-width:980px;margin:0 auto;padding:12px 0;width:100%}
 
 /* Управляющие кнопки */
-.controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;justify-content:center;padding:0 12px}
+.controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px;justify-content:center;padding:0 8px}
 .mode-btn{
   appearance:none;
-  -webkit-appearance:none;
-  background:linear-gradient(180deg,#6aa7f0 0%, #2b6fb2 100%);
+  background:linear-gradient(180deg,#6aa7f0 0%,#2b6fb2 100%);
   border:none;
   color:white;
-  padding:10px 16px;
+  padding:12px 18px;
   border-radius:10px;
   font-weight:600;
   cursor:pointer;
+  font-size:16px;
   box-shadow:0 6px 18px rgba(43,111,178,0.12);
-  transition:transform .12s ease, box-shadow .12s ease, opacity .12s;
+  transition:transform .12s ease, box-shadow .12s ease;
   min-width:150px;
 }
 .mode-btn:hover{transform:translateY(-2px)}
 .mode-btn:active{transform:translateY(0)}
-.mode-btn:focus{outline:3px solid rgba(43,111,178,0.16)}
 
-/* Содержимое приложения — таблица и одиночная карточка */
-#app{margin-top:6px;overflow-x:auto;padding:0 12px}
+/* Содержимое приложения */
+#app{margin-top:6px;overflow-x:auto;padding:0 8px}
 
-/* Таблица — общий вид */
+/* Таблица */
 #app table{
   width:100%;
   border-collapse:collapse;
@@ -42,74 +45,48 @@ body{font-family:system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
   table-layout:fixed;
 }
 #app th, #app td{
-  padding:12px 14px;
+  padding:8px 12px; /* уменьшены вертикальные отступы */
   text-align:left;
   border-bottom:1px solid #eef2f7;
   vertical-align:middle;
-  font-size:15px;
+  font-size:16px; /* шрифт больше */
   word-wrap:break-word;
 }
 #app thead th{background:#f8fbff;font-weight:700}
 #app tr:nth-child(even){background:#fbfdff}
 
-/* Поля ввода — общий вид */
+/* Инпуты */
 input[type="text"]{
   padding:8px 10px;
   border:1px solid #d8e1ee;
   border-radius:8px;
-  font-size:14px;
+  font-size:15px;
   background:#fff;
   box-sizing:border-box;
-}
-
-/* --- Поведение инпутов в таблице: --- */
-/* Во второй колонке (td:nth-child(2)) инпуты снова расположены в две строки (stack) с вертикальным отступом */
-#app table td:nth-child(2) > input[type="text"]{
   width:100%;
   display:block;
-  margin:6px 0; /* вертикальный отступ между полями */
+  margin:4px 0; /* вертикальный отступ между двумя полями */
 }
 
-/* Режим по одной паре — инпуты широкие и с вертикальным отступом */
-#app input#answer1, #app input#answer2{
-  width:100%;
-  display:block;
-  margin-bottom:10px;
-}
-
-/* Кнопка "Проверить" внутри app */
+/* Кнопка внутри приложения */
 #app button{
   background:linear-gradient(180deg,#3db05a,#2b8a45);
   color:#fff;
   border:none;
-  padding:8px 12px;
+  padding:10px 14px;
   border-radius:8px;
   cursor:pointer;
   font-weight:600;
-  margin-top:6px;
+  font-size:16px;
+  margin-top:8px;
 }
 
 /* Сообщение результата */
-#app p#result{margin-top:10px;font-weight:700}
+#app p#result{margin-top:8px;font-weight:700}
 
-/* Десктопное распределение колонок */
+/* Колонки: ширина */
 @media (min-width:760px){
-  #app td:first-child{width:35%}
-  #app td:nth-child(2){width:45%}
-  #app td:nth-child(3){width:20%;text-align:center}
-}
-
-/* Мелкая адаптация под узкие экраны: 
-   сохраняем отсутствие боковых отступов, но даём небольшие внутренние паддинги для удобства */
-@media (max-width:760px){
-  .container{padding:10px 0;margin:8px auto}
-  .controls{justify-content:space-between;padding:0 8px}
-  .mode-btn{min-width:0;flex:1;padding:10px;border-radius:10px}
-
-  /* Уменьшаем внутренние паддинги таблицы, чтобы всё помещалось */
-  #app th, #app td{padding:10px 8px;font-size:14px}
-  #app thead th{display:table-cell}
-
-  /* Горизонтальный скролл остаётся при необходимости */
-  #app{overflow-x:auto;padding:0 8px}
+  #app td:first-child{width:30%}
+  #app td:nth-child(2){width:40%}
+  #app td:nth-child(3){width:30%;text-align:center}
 }
