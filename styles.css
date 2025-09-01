@@ -1,14 +1,15 @@
-/* styles.css — обновлён: таблица показывается и на мобильных, добавлен отступ между полями ввода */
+/* styles.css — обновлён: убраны горизонтальные отступы от краёв экрана; 
+   во второй (средней) колонке инпуты снова расположены в две строки с вертикальным отступом. */
 /* Базовый сброс */
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
-body{font-family:system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:#f6f8fb;color:#0f1720;line-height:1.45;padding:8px}
+body{font-family:system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:#f6f8fb;color:#0f1720;line-height:1.45;padding:8px 0}
 
-/* Контейнер */
-.container{max-width:980px;margin:12px auto;padding:12px}
+/* Контейнер: убраны боковые отступы (чтобы контент прилегал к краям на узких экранах) */
+.container{max-width:980px;margin:12px auto;padding:12px 0;width:100%}
 
 /* Управляющие кнопки */
-.controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;justify-content:center}
+.controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;justify-content:center;padding:0 12px}
 .mode-btn{
   appearance:none;
   -webkit-appearance:none;
@@ -28,10 +29,7 @@ body{font-family:system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
 .mode-btn:focus{outline:3px solid rgba(43,111,178,0.16)}
 
 /* Содержимое приложения — таблица и одиночная карточка */
-#app{margin-top:6px;}
-
-/* Обёртка для таблицы — позволит скроллить на узких экранах */
-#app{overflow-x:auto}
+#app{margin-top:6px;overflow-x:auto;padding:0 12px}
 
 /* Таблица — общий вид */
 #app table{
@@ -41,7 +39,7 @@ body{font-family:system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
   border-radius:12px;
   overflow:hidden;
   box-shadow:0 6px 20px rgba(16,24,40,0.04);
-  table-layout:fixed; /* фиксированное распределение колонок для предсказуемости */
+  table-layout:fixed;
 }
 #app th, #app td{
   padding:12px 14px;
@@ -64,17 +62,15 @@ input[type="text"]{
   box-sizing:border-box;
 }
 
-/* --- Важное поведение: --- */
-/* 1) Внутри таблицы — два поля в одной ячейке: делим пространство пополам и добавляем отступ между ними */
-#app table td > input[type="text"]{
-  width:calc(50% - 8px);
-  margin-right:8px;
-  display:inline-block;
-  vertical-align:middle;
+/* --- Поведение инпутов в таблице: --- */
+/* Во второй колонке (td:nth-child(2)) инпуты снова расположены в две строки (stack) с вертикальным отступом */
+#app table td:nth-child(2) > input[type="text"]{
+  width:100%;
+  display:block;
+  margin:6px 0; /* вертикальный отступ между полями */
 }
-#app table td > input[type="text"]:last-child{margin-right:0}
 
-/* 2) В режиме по одной паре — инпуты делаем на всю ширину и добавляем расстояние между ними */
+/* Режим по одной паре — инпуты широкие и с вертикальным отступом */
 #app input#answer1, #app input#answer2{
   width:100%;
   display:block;
@@ -96,27 +92,24 @@ input[type="text"]{
 /* Сообщение результата */
 #app p#result{margin-top:10px;font-weight:700}
 
-/* Мелкие улучшения для десктопа */
+/* Десктопное распределение колонок */
 @media (min-width:760px){
   #app td:first-child{width:35%}
   #app td:nth-child(2){width:45%}
   #app td:nth-child(3){width:20%;text-align:center}
 }
 
-/* Адаптация под мобильные устройства (таблица остаётся таблицей) */
+/* Мелкая адаптация под узкие экраны: 
+   сохраняем отсутствие боковых отступов, но даём небольшие внутренние паддинги для удобства */
 @media (max-width:760px){
-  .container{padding:10px;margin:8px}
-  .controls{justify-content:space-between}
+  .container{padding:10px 0;margin:8px auto}
+  .controls{justify-content:space-between;padding:0 8px}
   .mode-btn{min-width:0;flex:1;padding:10px;border-radius:10px}
 
-  /* Уменьшаем отступы в таблице, но оставляем табличную структуру */
+  /* Уменьшаем внутренние паддинги таблицы, чтобы всё помещалось */
   #app th, #app td{padding:10px 8px;font-size:14px}
   #app thead th{display:table-cell}
 
-  /* Если места мало — поля внутри ячейки автоматически займут по 50% и аккуратно перенесутся */
-  #app table td > input[type="text"]{width:calc(50% - 6px);margin-right:6px;margin-top:6px}
-  #app table td > input[type="text"]:last-child{margin-right:0}
-
-  /* Поддержка горизонтального скролла при очень узком экране */
-  #app{overflow-x:auto}
+  /* Горизонтальный скролл остаётся при необходимости */
+  #app{overflow-x:auto;padding:0 8px}
 }
