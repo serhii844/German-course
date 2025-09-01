@@ -1,0 +1,99 @@
+/* styles.css — стили вынесены отдельно */
+/* Базовый сброс */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:#f6f8fb;color:#0f1720;line-height:1.45;padding:8px}
+
+/* Контейнер */
+.container{max-width:980px;margin:12px auto;padding:12px}
+
+/* Управляющие кнопки */
+.controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;justify-content:center}
+.mode-btn{
+  appearance:none;
+  -webkit-appearance:none;
+  background:linear-gradient(180deg,#6aa7f0 0%, #2b6fb2 100%);
+  border:none;
+  color:white;
+  padding:10px 16px;
+  border-radius:10px;
+  font-weight:600;
+  cursor:pointer;
+  box-shadow:0 6px 18px rgba(43,111,178,0.12);
+  transition:transform .12s ease, box-shadow .12s ease, opacity .12s;
+  min-width:150px;
+}
+.mode-btn:hover{transform:translateY(-2px)}
+.mode-btn:active{transform:translateY(0)}
+.mode-btn:focus{outline:3px solid rgba(43,111,178,0.16)}
+
+/* Содержимое приложения — таблица и одиночная карточка */
+#app{margin-top:6px}
+
+/* Таблица — общий вид */
+#app table{
+  width:100%;
+  border-collapse:collapse;
+  background:#fff;
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 6px 20px rgba(16,24,40,0.04);
+}
+#app th, #app td{
+  padding:12px 14px;
+  text-align:left;
+  border-bottom:1px solid #eef2f7;
+  vertical-align:middle;
+  font-size:15px;
+}
+#app thead th{background:#f8fbff;font-weight:700}
+#app tr:nth-child(even){background:#fbfdff}
+
+/* Поля ввода */
+input[type="text"]{
+  padding:8px 10px;
+  border:1px solid #d8e1ee;
+  border-radius:8px;
+  width:100%;
+  font-size:14px;
+  background:#fff;
+}
+
+/* Кнопка "Проверить" внутри app */
+#app button{
+  background:linear-gradient(180deg,#3db05a,#2b8a45);
+  color:#fff;
+  border:none;
+  padding:8px 12px;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:600;
+  margin-top:6px;
+}
+
+/* Сообщение результата */
+#app p#result{margin-top:10px;font-weight:700}
+
+/* Мелкие улучшения для десктопа */
+@media (min-width:760px){
+  #app td:first-child{width:35%}
+  #app td:nth-child(2){width:45%}
+  #app td:nth-child(3){width:20%;text-align:center}
+}
+
+/* Адаптация под мобильные устройства */
+@media (max-width:760px){
+  .container{padding:10px;margin:8px}
+  .controls{justify-content:space-between}
+  .mode-btn{min-width:0;flex:1;padding:10px;border-radius:10px}
+
+  /* Превращаем таблицу в карточки для удобного просмотра на телефоне */
+  #app table, #app thead, #app tbody, #app th, #app td, #app tr{display:block}
+  #app thead{display:none}
+  #app tr{margin-bottom:12px;background:#fff;border-radius:10px;padding:10px;border:1px solid #eef3fa}
+  #app td{border:none;padding:6px 0;display:flex;justify-content:space-between;align-items:center}
+  #app td:first-child{font-weight:700;flex-basis:40%;flex-shrink:0;padding-right:10px}
+  #app td:nth-child(2){flex-basis:60%}
+  #app input[type="text"]{width:100%;min-width:120px}
+  #app td#check_{text-align:right}
+}
