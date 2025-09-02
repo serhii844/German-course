@@ -1,6 +1,7 @@
 let pairs = [];
 let mode = "table"; // table | single
 let currentIndex = 0;
+let lastIndex = -1; // для случайного выбора
 
 async function loadData() {
   const res = await fetch("pairs.json"); // наш JSON с парами
@@ -11,6 +12,7 @@ async function loadData() {
 function switchMode(newMode) {
   mode = newMode;
   currentIndex = 0;
+  lastIndex = -1;
   render();
 }
 
@@ -45,7 +47,6 @@ function render() {
         const ok1 = v1 === p.de1.toLowerCase();
         const ok2 = v2 === p.de2.toLowerCase();
         
-        // Теперь проверка по каждому слову отдельно
         let result = "";
         result += ok1 ? "✅" : `❌ (${p.de1})`;
         result += " ";
@@ -60,10 +61,17 @@ function render() {
   }
 
   if (mode === "single") {
-    if (currentIndex >= pairs.length) {
-      app.innerHTML = "<h3>Все пары пройдены!</h3>";
+    if (pairs.length === 0) {
+      app.innerHTML = "<h3>Нет пар для отображения!</h3>";
       return;
     }
+
+    // выбираем случайную пару, отличающуюся от предыдущей
+    do {
+      currentIndex = Math.floor(Math.random() * pairs.length);
+    } while (currentIndex === lastIndex && pairs.length > 1);
+    lastIndex = currentIndex;
+
     const p = pairs[currentIndex];
     const div = document.createElement("div");
     div.innerHTML = `
@@ -72,6 +80,7 @@ function render() {
       <input type="text" id="answer2" placeholder="${p.ua2}">
       <button onclick="checkSingle()">Проверить</button>
       <p id="result"></p>
+      <button id="nextBtn" style="display:none;" onclick="render()">Следующая пара</button>
     `;
     app.appendChild(div);
   }
@@ -83,13 +92,15 @@ function checkSingle() {
   const v2 = document.getElementById("answer2").value.trim().toLowerCase();
   const result = document.getElementById("result");
 
-  if (v1 === p.de1.toLowerCase() && v2 === p.de2.toLowerCase()) {
-    result.innerText = "✅ Правильно!";
-  } else {
-    result.innerText = `❌ Неправильно. Правильно: ${p.de1} — ${p.de2}`;
-  }
-  currentIndex++;
-  setTimeout(render, 1500);
+  let resText = "";
+  resText += (v1 === p.de1.toLowerCase()) ? "✅" : `❌ (${p.de1})`;
+  resText += " ";
+  resText += (v2 === p.de2.toLowerCase()) ? "✅" : `❌ (${p.de2})`;
+
+  result.innerText = resText;
+
+  // показать кнопку "Следующая пара"
+  document.getElementById("nextBtn").style.display = "inline-block";
 }
 
 window.onload = loadData;
