@@ -1,8 +1,8 @@
 const AntonymsTrainer = {
   pairs: [],
-  mode: "table", // table | single
+  mode: "table", // table | single | five | ten | last10
   currentIndex: 0,
-  lastIndex: -1, // для случайного выбора
+  lastIndex: -1, 
 
   async init() {
     const res = await fetch("pairs.json");
@@ -17,16 +17,42 @@ const AntonymsTrainer = {
     this.render();
   },
 
+  getPairsForMode() {
+    if (this.mode === "table") {
+      // случайный порядок всех пар
+      return this.shuffle([...this.pairs]);
+    }
+    if (this.mode === "five") {
+      return this.shuffle([...this.pairs]).slice(0, 5);
+    }
+    if (this.mode === "ten") {
+      return this.shuffle([...this.pairs]).slice(0, 10);
+    }
+    if (this.mode === "last10") {
+      return this.pairs.slice(-10);
+    }
+    return [];
+  },
+
+  shuffle(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  },
+
   render() {
     const app = document.getElementById("app");
     app.innerHTML = "";
 
-    if (this.mode === "table") {
+    if (["table", "five", "ten", "last10"].includes(this.mode)) {
+      const data = this.getPairsForMode();
       const table = document.createElement("table");
       table.border = "1";
       table.innerHTML = "<tr><th>Українська</th><th>Німецька</th><th>Перевірка</th></tr>";
 
-      this.pairs.forEach((p, i) => {
+      data.forEach((p, i) => {
         const row = document.createElement("tr");
         row.innerHTML = `
           <td>${p.ua1} — ${p.ua2}</td>
@@ -42,7 +68,7 @@ const AntonymsTrainer = {
       const btn = document.createElement("button");
       btn.innerText = "Перевірити все";
       btn.onclick = () => {
-        this.pairs.forEach((p, i) => {
+        data.forEach((p, i) => {
           const v1 = document.getElementById(`input_${i}_1`).value.trim().toLowerCase();
           const v2 = document.getElementById(`input_${i}_2`).value.trim().toLowerCase();
           const ok1 = v1 === p.de1.toLowerCase();
