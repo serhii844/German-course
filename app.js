@@ -16,6 +16,16 @@ function switchMode(newMode) {
   render();
 }
 
+// Функция перемешивания массива (Fisher–Yates)
+function shuffleArray(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
 function render() {
   const app = document.getElementById("app");
   app.innerHTML = "";
@@ -25,7 +35,10 @@ function render() {
     table.border = "1";
     table.innerHTML = "<tr><th>Русский (антонимы)</th><th>Немецкий (ввод)</th><th>Проверка</th></tr>";
 
-    pairs.forEach((p, i) => {
+    // перемешиваем пары для отображения
+    const shuffled = shuffleArray(pairs);
+
+    shuffled.forEach((p, i) => {
       const row = document.createElement("tr");
       row.innerHTML = `
         <td>${p.ua1} — ${p.ua2}</td>
@@ -40,67 +53,10 @@ function render() {
 
     const btn = document.createElement("button");
     btn.innerText = "Проверить всё";
+    btn.className = "check-all";
     btn.onclick = () => {
-      pairs.forEach((p, i) => {
+      shuffled.forEach((p, i) => {
         const v1 = document.getElementById(`input_${i}_1`).value.trim().toLowerCase();
         const v2 = document.getElementById(`input_${i}_2`).value.trim().toLowerCase();
         const ok1 = v1 === p.de1.toLowerCase();
         const ok2 = v2 === p.de2.toLowerCase();
-        
-        let result = "";
-        result += ok1 ? "✅" : `❌ (${p.de1})`;
-        result += " ";
-        result += ok2 ? "✅" : `❌ (${p.de2})`;
-
-        document.getElementById(`check_${i}`).innerText = result;
-      });
-    };
-
-    app.appendChild(table);
-    app.appendChild(btn);
-  }
-
-  if (mode === "single") {
-    if (pairs.length === 0) {
-      app.innerHTML = "<h3>Нет пар для отображения!</h3>";
-      return;
-    }
-
-    // выбираем случайную пару, отличающуюся от предыдущей
-    do {
-      currentIndex = Math.floor(Math.random() * pairs.length);
-    } while (currentIndex === lastIndex && pairs.length > 1);
-    lastIndex = currentIndex;
-
-    const p = pairs[currentIndex];
-    const div = document.createElement("div");
-    div.innerHTML = `
-      <h3>${p.ua1} — ${p.ua2}</h3>
-      <input type="text" id="answer1" placeholder="${p.ua1}"> 
-      <input type="text" id="answer2" placeholder="${p.ua2}">
-      <button onclick="checkSingle()">Проверить</button>
-      <p id="result"></p>
-      <button id="nextBtn" style="display:none;" onclick="render()">Следующая пара</button>
-    `;
-    app.appendChild(div);
-  }
-}
-
-function checkSingle() {
-  const p = pairs[currentIndex];
-  const v1 = document.getElementById("answer1").value.trim().toLowerCase();
-  const v2 = document.getElementById("answer2").value.trim().toLowerCase();
-  const result = document.getElementById("result");
-
-  let resText = "";
-  resText += (v1 === p.de1.toLowerCase()) ? "✅" : `❌ (${p.de1})`;
-  resText += " ";
-  resText += (v2 === p.de2.toLowerCase()) ? "✅" : `❌ (${p.de2})`;
-
-  result.innerText = resText;
-
-  // показать кнопку "Следующая пара"
-  document.getElementById("nextBtn").style.display = "inline-block";
-}
-
-window.onload = loadData;
