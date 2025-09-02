@@ -44,8 +44,14 @@ function render() {
         const v2 = document.getElementById(`input_${i}_2`).value.trim().toLowerCase();
         const ok1 = v1 === p.de1.toLowerCase();
         const ok2 = v2 === p.de2.toLowerCase();
-        document.getElementById(`check_${i}`).innerText =
-          (ok1 && ok2) ? "✅" : `❌ (${p.de1}, ${p.de2})`;
+        
+        // Теперь проверка по каждому слову отдельно
+        let result = "";
+        result += ok1 ? "✅" : `❌ (${p.de1})`;
+        result += " ";
+        result += ok2 ? "✅" : `❌ (${p.de2})`;
+
+        document.getElementById(`check_${i}`).innerText = result;
       });
     };
 
