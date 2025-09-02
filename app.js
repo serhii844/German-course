@@ -23,7 +23,7 @@ function render() {
   if (mode === "table") {
     const table = document.createElement("table");
     table.border = "1";
-    table.innerHTML = "<tr><th>Русский (антонимы)</th><th>Немецкий (ввод)</th><th>Проверка</th></tr>";
+    table.innerHTML = "<tr><th>Українська</th><th>Німецька</th><th>Перевірка</th></tr>";
 
     pairs.forEach((p, i) => {
       const row = document.createElement("tr");
@@ -39,7 +39,7 @@ function render() {
     });
 
     const btn = document.createElement("button");
-    btn.innerText = "Проверить всё";
+    btn.innerText = "Перевірити все";
     btn.onclick = () => {
       pairs.forEach((p, i) => {
         const v1 = document.getElementById(`input_${i}_1`).value.trim().toLowerCase();
@@ -78,9 +78,9 @@ function render() {
       <h3>${p.ua1} — ${p.ua2}</h3>
       <input type="text" id="answer1" placeholder="${p.ua1}"> 
       <input type="text" id="answer2" placeholder="${p.ua2}">
-      <button onclick="checkSingle()">Проверить</button>
+      <button onclick="checkSingle()">Перевірити</button>
       <p id="result"></p>
-      <button id="nextBtn" style="display:none;" onclick="render()">Следующая пара</button>
+      <button id="nextBtn" style="display:none;" onclick="render()">Наступна пара</button>
     `;
     app.appendChild(div);
   }
@@ -104,3 +104,4 @@ function checkSingle() {
 }
 
 window.onload = loadData;
+
