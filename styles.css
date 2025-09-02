@@ -1,11 +1,4 @@
-:root{
-  --input-gap:6px;         /* вертикальный отступ между двумя input в одной ячейке */
-  --row-pad: calc(var(--input-gap) / 2); /* padding сверху/снизу у ячейки -> между строками будет равен --input-gap */
-  --font-size:16px;
-  --btn-font-size:16px;
-}
-
-/* Сброс */
+/* Сброс и базовые стили */
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
 body{
@@ -13,27 +6,14 @@ body{
   background:#f6f8fb;
   color:#0f1720;
   line-height:1.45;
-  margin:0;
-  padding:0; /* Ноль боковых/верхних/нижних отступов */
+  padding:0; /* без боковых отступов */
 }
 
-/* Контейнер — полностью влево/вправо, без внешних отступов */
-.container{
-  width:100%;
-  max-width:100%;
-  margin:0;
-  padding:0;
-}
+/* Контейнер */
+.container{max-width:980px;margin:0 auto;padding:12px 0;width:100%}
 
-/* Кнопки режимов */
-.controls{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin:0 0 8px 0;
-  justify-content:center;
-  padding:0;
-}
+/* Управляющие кнопки */
+.controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px;justify-content:center;padding:0 8px}
 .mode-btn{
   appearance:none;
   background:linear-gradient(180deg,#6aa7f0 0%,#2b6fb2 100%);
@@ -41,48 +21,41 @@ body{
   color:white;
   padding:12px 18px;
   border-radius:10px;
-  font-weight:700;
+  font-weight:600;
   cursor:pointer;
-  font-size:var(--btn-font-size);
+  font-size:16px;
   box-shadow:0 6px 18px rgba(43,111,178,0.12);
+  transition:transform .12s ease, box-shadow .12s ease;
   min-width:150px;
 }
 .mode-btn:hover{transform:translateY(-2px)}
 .mode-btn:active{transform:translateY(0)}
 
-/* Область приложения — без боковых паддингов */
-#app{
-  margin:0;
-  padding:0;
-  overflow-x:auto; /* если не хватает ширины — появится горизонтальный скролл */
-}
+/* Содержимое приложения */
+#app{margin-top:6px;overflow-x:auto;padding:0 8px}
 
-/* Таблица — занимает всю ширину, без внешних отступов */
+/* Таблица */
 #app table{
   width:100%;
   border-collapse:collapse;
   background:#fff;
-  border-radius:0; /* чтобы край был вплотную к краю экрана при нулевых отступах */
+  border-radius:12px;
   overflow:hidden;
-  box-shadow:none;
-  table-layout:fixed; /* фиксированное распределение колонок */
-  margin:0;
+  box-shadow:0 6px 20px rgba(16,24,40,0.04);
+  table-layout:fixed;
 }
-
-/* Сжатые вертикальные отступы между строками — padding сверху/снизу равен --row-pad */
 #app th, #app td{
-  padding: var(--row-pad) 8px;
+  padding:8px 12px; /* уменьшены вертикальные отступы */
   text-align:left;
   border-bottom:1px solid #eef2f7;
   vertical-align:middle;
-  font-size:var(--font-size);
+  font-size:16px; /* шрифт больше */
   word-wrap:break-word;
 }
-
 #app thead th{background:#f8fbff;font-weight:700}
 #app tr:nth-child(even){background:#fbfdff}
 
-/* Input'ы: вертикальный отступ между двумя полями в ячейке = --input-gap */
+/* Инпуты */
 input[type="text"]{
   padding:8px 10px;
   border:1px solid #d8e1ee;
@@ -92,16 +65,10 @@ input[type="text"]{
   box-sizing:border-box;
   width:100%;
   display:block;
-  margin: var(--input-gap) 0;
+  margin:4px 0; /* вертикальный отступ между двумя полями */
 }
 
-/* Убедимся, что во второй колонке инпуты встают друг под другом (две строки) */
-#app table td:nth-child(2) > input[type="text"]{
-  width:100%;
-  display:block;
-}
-
-/* Кнопка "Проверить всё" внутри app */
+/* Кнопка внутри приложения */
 #app button{
   background:linear-gradient(180deg,#3db05a,#2b8a45);
   color:#fff;
@@ -109,25 +76,17 @@ input[type="text"]{
   padding:10px 14px;
   border-radius:8px;
   cursor:pointer;
-  font-weight:700;
-  font-size:var(--btn-font-size);
+  font-weight:600;
+  font-size:16px;
   margin-top:8px;
 }
 
-/* Результат */
+/* Сообщение результата */
 #app p#result{margin-top:8px;font-weight:700}
 
-/* Колонки: 30% / 40% / 30% (на десктопе) */
+/* Колонки: ширина */
 @media (min-width:760px){
-  #app th:first-child, #app td:first-child{width:30%}
-  #app th:nth-child(2), #app td:nth-child(2){width:40%}
-  #app th:nth-child(3), #app td:nth-child(3){width:30%; text-align:center}
-}
-
-/* Небольшие правки для очень узких экранов */
-@media (max-width:760px){
-  .controls{padding:0 6px}
-  .mode-btn{min-width:0;flex:1;padding:12px;border-radius:10px}
-  #app th, #app td{padding:var(--row-pad) 6px;font-size:var(--font-size)}
-  #app{overflow-x:auto;padding:0 4px}
+  #app td:first-child{width:30%}
+  #app td:nth-child(2){width:40%}
+  #app td:nth-child(3){width:30%;text-align:center}
 }
