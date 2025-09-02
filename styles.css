@@ -90,3 +90,10 @@ input[type="text"]{
   #app td:nth-child(2){width:40%}
   #app td:nth-child(3){width:30%;text-align:center}
 }
+
+/* Кнопка "Проверить всё" по центру */
+#app .check-all {
+  display:block;
+  margin: 12px auto;
+}
+
