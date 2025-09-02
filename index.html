@@ -7,16 +7,20 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="container">
-    <div class="controls" role="navigation" aria-label="Режимы">
-      <button class="mode-btn" onclick="switchMode('table')">Bсі пари</button>
-      <button class="mode-btn" onclick="switchMode('single')">По одній парі</button>
-    </div>
+  <div id="antonyms-trainer">
+    <div class="container">
+      <div class="controls" role="navigation" aria-label="Режимы">
+        <button class="mode-btn" onclick="AntonymsTrainer.switchMode('table')">Bсі пари</button>
+        <button class="mode-btn" onclick="AntonymsTrainer.switchMode('single')">По одній парі</button>
+      </div>
 
-    <main id="app" role="main" aria-live="polite"></main>
+      <main id="app" role="main" aria-live="polite"></main>
+    </div>
   </div>
 
   <script src="app.js"></script>
+  <script>
+    AntonymsTrainer.init();
+  </script>
 </body>
 </html>
-
