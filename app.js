@@ -48,9 +48,9 @@ function render() {
         const ok2 = v2 === p.de2.toLowerCase();
         
         let result = "";
-        result += ok1 ? "✔" : `✘ (${p.de1})`;
+        result += ok1 ? "✅" : `❌ (${p.de1})`;
         result += " ";
-        result += ok2 ? "✔" : `✘ (${p.de2})`;
+        result += ok2 ? "✅" : `❌ (${p.de2})`;
 
         document.getElementById(`check_${i}`).innerText = result;
       });
@@ -93,8 +93,14 @@ function checkSingle() {
   const result = document.getElementById("result");
 
   let resText = "";
-  resText += (v1 === p.de1.toLowerCase()) ? "✔" : `✘ (${p.de1})`;
+  resText += (v1 === p.de1.toLowerCase()) ? "✅" : `❌ (${p.de1})`;
   resText += " ";
-  resText += (v2 === p.de2.toLowerCase()) ? "✔" : `✘ (${p.de2})`;
+  resText += (v2 === p.de2.toLowerCase()) ? "✅" : `❌ (${p.de2})`;
 
-  result.innerText = res
+  result.innerText = resText;
+
+  // показать кнопку "Следующая пара"
+  document.getElementById("nextBtn").style.display = "inline-block";
+}
+
+window.onload = loadData;
