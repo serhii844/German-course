@@ -39,8 +39,51 @@ function render() {
     const btn = document.createElement("button");
     btn.innerText = "Проверить всё";
     btn.onclick = () => {
-      // фикс: снимаем фокус, чтобы клавиатура закрывалась на мобильных
-      document.activeElement.blur();
-
       pairs.forEach((p, i) => {
-        const v1 = document.getElementById(`input_${i_
+        const v1 = document.getElementById(`input_${i}_1`).value.trim().toLowerCase();
+        const v2 = document.getElementById(`input_${i}_2`).value.trim().toLowerCase();
+        const ok1 = v1 === p.de1.toLowerCase();
+        const ok2 = v2 === p.de2.toLowerCase();
+        document.getElementById(`check_${i}`).innerText =
+          (ok1 && ok2) ? "✅" : `❌ (${p.de1}, ${p.de2})`;
+      });
+    };
+
+    app.appendChild(table);
+    app.appendChild(btn);
+  }
+
+  if (mode === "single") {
+    if (currentIndex >= pairs.length) {
+      app.innerHTML = "<h3>Все пары пройдены!</h3>";
+      return;
+    }
+    const p = pairs[currentIndex];
+    const div = document.createElement("div");
+    div.innerHTML = `
+      <h3>${p.ua1} — ${p.ua2}</h3>
+      <input type="text" id="answer1" placeholder="${p.ua1}"> 
+      <input type="text" id="answer2" placeholder="${p.ua2}">
+      <button onclick="checkSingle()">Проверить</button>
+      <p id="result"></p>
+    `;
+    app.appendChild(div);
+  }
+}
+
+function checkSingle() {
+  const p = pairs[currentIndex];
+  const v1 = document.getElementById("answer1").value.trim().toLowerCase();
+  const v2 = document.getElementById("answer2").value.trim().toLowerCase();
+  const result = document.getElementById("result");
+
+  if (v1 === p.de1.toLowerCase() && v2 === p.de2.toLowerCase()) {
+    result.innerText = "✅ Правильно!";
+  } else {
+    result.innerText = `❌ Неправильно. Правильно: ${p.de1} — ${p.de2}`;
+  }
+  currentIndex++;
+  setTimeout(render, 1500);
+}
+
+window.onload = loadData;
