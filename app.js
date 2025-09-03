@@ -29,7 +29,8 @@ const AntonymsTrainer = {
       return this.shuffle([...this.pairs]).slice(0, 10);
     }
     if (this.mode === "last10") {
-      return this.pairs.slice(-10);
+      // последние 10, но в случайном порядке
+      return this.shuffle(this.pairs.slice(-10));
     }
     return [];
   },
@@ -105,7 +106,10 @@ const AntonymsTrainer = {
         <h3>${p.ua1} — ${p.ua2}</h3>
         <input type="text" id="answer1" placeholder="${p.ua1}"> 
         <input type="text" id="answer2" placeholder="${p.ua2}">
-        <button onclick="AntonymsTrainer.checkSingle()">Перевірити</button>
+        <div class="single-controls">
+          <button onclick="AntonymsTrainer.checkSingle()">Перевірити</button>
+          <button onclick="AntonymsTrainer.switchMode('single')">Пропустити</button>
+        </div>
         <p id="result"></p>
         <button id="nextBtn" style="display:none;" onclick="AntonymsTrainer.render()">Наступна пара</button>
       `;
@@ -129,3 +133,5 @@ const AntonymsTrainer = {
     document.getElementById("nextBtn").style.display = "inline-block";
   }
 };
+
+window.onload = () => AntonymsTrainer.init();
