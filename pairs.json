@@ -40,13 +40,14 @@
   {"ua1": "сучасний", "ua2": "старомодний", "de1": "modern", "de2": "altmodisch"},
   {"ua1": "цілий/цілком", "ua2": "зламаний", "de1": "ganz", "de2": "kaputt"},
   {"ua1": "чітко", "ua2": "нечітко", "de1": "klarr", "de2": "unklarr"},
-  {"ua1": "впевнений", "ua2": "невпевнений", "de1": "sicher", "de2": "unsicher"}
+  {"ua1": "впевнений", "ua2": "невпевнений", "de1": "sicher", "de2": "unsicher"},
   {"ua1": "дружнiй", "ua2": "недружнiй", "de1": "freundlich", "de2": "unfreundlich"},
   {"ua1": "розумний", "ua2": "тупий", "de1": "klug", "de2": "dumm"},
   {"ua1": "письмовий", "ua2": "усний", "de1": "schriftlich", "de2": "mündlich"},
   {"ua1": "високий", "ua2": "глибокий", "de1": "hoch", "de2": "tief"},
   {"ua1": "твердо/мiцно", "ua2": "розшатано", "de1": "fest", "de2": "locker"}
 ]
+
 
 
 
