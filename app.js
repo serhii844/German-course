@@ -19,7 +19,6 @@ const AntonymsTrainer = {
 
   getPairsForMode() {
     if (this.mode === "table") {
-      // случайный порядок всех пар
       return this.shuffle([...this.pairs]);
     }
     if (this.mode === "five") {
@@ -29,7 +28,6 @@ const AntonymsTrainer = {
       return this.shuffle([...this.pairs]).slice(0, 10);
     }
     if (this.mode === "last10") {
-      // последние 10, но в случайном порядке
       return this.shuffle(this.pairs.slice(-10));
     }
     return [];
@@ -55,8 +53,17 @@ const AntonymsTrainer = {
 
       data.forEach((p, i) => {
         const row = document.createElement("tr");
+        row.id = `row_${i}`;
+
+        let refreshBtn = "";
+        if (["five", "ten"].includes(this.mode)) {
+          refreshBtn = `<button onclick="AntonymsTrainer.refreshRow(${i})">🔄</button> `;
+        }
+
+        const skipBtn = `<button onclick="AntonymsTrainer.skipRow(${i})">➡</button>`;
+
         row.innerHTML = `
-          <td>${p.ua1} — ${p.ua2}</td>
+          <td>${refreshBtn}${p.ua1} — ${p.ua2} ${skipBtn}</td>
           <td>
             <input type="text" id="input_${i}_1" placeholder="${p.ua1}"> 
             <input type="text" id="input_${i}_2" placeholder="${p.ua2}">
@@ -70,17 +77,20 @@ const AntonymsTrainer = {
       btn.innerText = "Перевірити все";
       btn.onclick = () => {
         data.forEach((p, i) => {
-          const v1 = document.getElementById(`input_${i}_1`).value.trim().toLowerCase();
-          const v2 = document.getElementById(`input_${i}_2`).value.trim().toLowerCase();
-          const ok1 = v1 === p.de1.toLowerCase();
-          const ok2 = v2 === p.de2.toLowerCase();
-          
+          const v1 = document.getElementById(`input_${i}_1`);
+          const v2 = document.getElementById(`input_${i}_2`);
+          const checkCell = document.getElementById(`check_${i}`);
+          if (!v1 || !v2 || !checkCell) return;
+
+          const ok1 = v1.value.trim().toLowerCase() === p.de1.toLowerCase();
+          const ok2 = v2.value.trim().toLowerCase() === p.de2.toLowerCase();
+
           let result = "";
           result += ok1 ? "✅" : `❌ (${p.de1})`;
           result += " ";
           result += ok2 ? "✅" : `❌ (${p.de2})`;
 
-          document.getElementById(`check_${i}`).innerText = result;
+          checkCell.innerText = result;
         });
       };
 
@@ -94,7 +104,6 @@ const AntonymsTrainer = {
         return;
       }
 
-      // выбираем случайную пару, отличающуюся от предыдущей
       do {
         this.currentIndex = Math.floor(Math.random() * this.pairs.length);
       } while (this.currentIndex === this.lastIndex && this.pairs.length > 1);
@@ -131,6 +140,24 @@ const AntonymsTrainer = {
     result.innerText = resText;
 
     document.getElementById("nextBtn").style.display = "inline-block";
+  },
+
+  skipRow(i) {
+    const row = document.getElementById(`row_${i}`);
+    if (row) row.remove();
+  },
+
+  refreshRow(i) {
+    const row = document.getElementById(`row_${i}`);
+    if (!row) return;
+    const randomPair = this.pairs[Math.floor(Math.random() * this.pairs.length)];
+    row.querySelector("td").innerHTML = 
+      `<button onclick="AntonymsTrainer.refreshRow(${i})">🔄</button> ${randomPair.ua1} — ${randomPair.ua2} <button onclick="AntonymsTrainer.skipRow(${i})">➡</button>`;
+    row.querySelectorAll("td")[1].innerHTML = `
+      <input type="text" id="input_${i}_1" placeholder="${randomPair.ua1}"> 
+      <input type="text" id="input_${i}_2" placeholder="${randomPair.ua2}">
+    `;
+    row.querySelectorAll("td")[2].innerHTML = "";
   }
 };
 
