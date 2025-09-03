@@ -6,7 +6,7 @@ body{
   background:#f6f8fb;
   color:#0f1720;
   line-height:1.45;
-  padding:0; /* без боковых отступов */
+  padding:0;
 }
 
 /* Контейнер */
@@ -54,13 +54,9 @@ body{
 }
 #app thead th{background:#f8fbff;font-weight:700}
 
-/* Четные и нечетные строки таблицы */
-#app tr:nth-child(odd) {
-  background: #ffffff;
-}
-#app tr:nth-child(even) {
-  background: #f0f4f8; /* сильнее выделяется */
-}
+/* Четные и нечетные строки */
+#app tr:nth-child(odd){background:#ffffff}
+#app tr:nth-child(even){background:#e8eff5}
 
 /* Инпуты */
 input[type="text"]{
@@ -75,8 +71,8 @@ input[type="text"]{
   margin:4px 0;
 }
 
-/* Кнопка внутри приложения */
-#app button{
+/* Основные кнопки (зелёные) */
+.main-btn{
   background:linear-gradient(180deg,#3db05a,#2b8a45);
   color:#fff;
   border:none;
@@ -87,26 +83,25 @@ input[type="text"]{
   font-size:16px;
   margin-top:8px;
 }
+.main-btn:hover{opacity:0.9}
 
-/* Кнопки-иконки в таблице */
-.icon-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 16px; /* размер иконки */
-  padding: 0 4px;
-  line-height: 1;
-  color: #444;
-  transition: color 0.2s ease;
+/* Маленькие иконки-кнопки */
+.icon-btn{
+  background:none;
+  border:none;
+  cursor:pointer;
+  font-size:16px;
+  padding:0 4px;
+  line-height:1;
+  color:#444;
+  transition:color .2s ease;
 }
-.icon-btn:hover {
-  color: #000;
-}
+.icon-btn:hover{color:#000}
 
 /* Сообщение результата */
 #app p#result{margin-top:8px;font-weight:700}
 
-/* Колонки: ширина */
+/* Колонки */
 @media (min-width:760px){
   #app td:first-child{width:30%}
   #app td:nth-child(2){width:40%}
