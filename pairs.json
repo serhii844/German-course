@@ -3,6 +3,7 @@
   {"ua1": "новий", "ua2": "використаний", "de1": "neu", "de2": "gebraucht"},
   {"ua1": "старий", "ua2": "молодий", "de1": "alt", "de2": "jung"},
   {"ua1": "великий", "ua2": "маленький", "de1": "groß", "de2": "klein"},
+  {"ua1": "правильно", "ua2": "неправильно", "de1": "richtig", "de2": "falsch"},
   {"ua1": "здоровий", "ua2": "хворий", "de1": "gesund", "de2": "krank"},
   {"ua1": "здоровий", "ua2": "нездоровий", "de1": "gesund", "de2": "ungesund"},
   {"ua1": "багато", "ua2": "мало", "de1": "viel", "de2": "wenig"},
@@ -25,12 +26,12 @@
   {"ua1": "важливо", "ua2": "неважливо", "de1": "wichtig", "de2": "unwichtig"},
   {"ua1": "сильний", "ua2": "слабкий", "de1": "stark", "de2": "schwach"},
   {"ua1": "увімкнути", "ua2": "вимкнути", "de1": "anmachen", "de2": "ausmachen"},
-  {"ua1": "відкрити", "ua2": "закрити", "de1": "aufmachen", "de2": "zumachen"},
+  {"ua1": "відкрити (дверi)", "ua2": "закрити (дверi)", "de1": "aufmachen", "de2": "zumachen"},
   {"ua1": "швидко", "ua2": "повільно", "de1": "schnell", "de2": "langsam"},
   {"ua1": "світло", "ua2": "темно", "de1": "hell", "de2": "dunkel"},
   {"ua1": "багатий", "ua2": "бідний", "de1": "reich", "de2": "arm"},
   {"ua1": "твердий", "ua2": "м’який", "de1": "hart", "de2": "weich"},
-  {"ua1": "відкрито", "ua2": "закрито", "de1": "offen", "de2": "geschlossen"},
+  {"ua1": "відкритий", "ua2": "закритий", "de1": "offen", "de2": "geschlossen"},
   {"ua1": "щасливий", "ua2": "сумний", "de1": "glücklich", "de2": "traurig"},
   {"ua1": "сухий", "ua2": "мокрий", "de1": "trocken", "de2": "nass"},
   {"ua1": "чистий", "ua2": "брудний", "de1": "sauber", "de2": "schmutzig"},
@@ -38,14 +39,14 @@
   {"ua1": "цікавий", "ua2": "нудний", "de1": "interessant", "de2": "langweilig"},
   {"ua1": "зручно", "ua2": "незручно", "de1": "bequem", "de2": "unbequem"},
   {"ua1": "сучасний", "ua2": "старомодний", "de1": "modern", "de2": "altmodisch"},
-  {"ua1": "цілий/цілком", "ua2": "зламаний", "de1": "ganz", "de2": "kaputt"},
-  {"ua1": "чітко", "ua2": "нечітко", "de1": "klarr", "de2": "unklarr"},
+  {"ua1": "цілий/неушкоджений", "ua2": "зламаний/зіпсований", "de1": "ganz", "de2": "kaputt"},
+  {"ua1": "чітко", "ua2": "нечітко", "de1": "klar", "de2": "unklar"},
   {"ua1": "впевнений", "ua2": "невпевнений", "de1": "sicher", "de2": "unsicher"},
   {"ua1": "дружнiй", "ua2": "недружнiй", "de1": "freundlich", "de2": "unfreundlich"},
-  {"ua1": "розумний", "ua2": "тупий", "de1": "klug", "de2": "dumm"},
+  {"ua1": "розумний", "ua2": "дурний/нетямущий", "de1": "schlau", "de2": "dumm"},
   {"ua1": "письмовий", "ua2": "усний", "de1": "schriftlich", "de2": "mündlich"},
   {"ua1": "високий", "ua2": "глибокий", "de1": "hoch", "de2": "tief"},
-  {"ua1": "твердо/мiцно", "ua2": "розшатано", "de1": "fest", "de2": "locker"},
+  {"ua1": "твердий/стійкий", "ua2": "не твердий/розхитаний", "de1": "fest", "de2": "locker"},
   {"ua1": "пунктуальний", "ua2": "непунктуальний", "de1": "pünktlich", "de2": "unpünktlich"},
 {"ua1": "солодкий", "ua2": "кисий", "de1": "süß", "de2": "sauer"},
 {"ua1": "задоволений", "ua2": "незадоволений", "de1": "zufrieden", "de2": "unzufrieden"},
@@ -53,6 +54,7 @@
 {"ua1": "позитивний", "ua2": "негативний", "de1": "positiv", "de2": "negativ"}
 
 ]
+
 
 
 
