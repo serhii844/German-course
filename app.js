@@ -55,15 +55,10 @@ const AntonymsTrainer = {
         const row = document.createElement("tr");
         row.id = `row_${i}`;
 
-        let refreshBtn = "";
-        if (["five", "ten"].includes(this.mode)) {
-          refreshBtn = `<button class="icon-btn" onclick="AntonymsTrainer.refreshRow(${i})">🔄</button> `;
-        }
-
         const skipBtn = `<button class="icon-btn" onclick="AntonymsTrainer.skipRow(${i})">➡</button>`;
 
         row.innerHTML = `
-          <td>${refreshBtn}${p.ua1} — ${p.ua2} ${skipBtn}</td>
+          <td>${p.ua1} — ${p.ua2} ${skipBtn}</td>
           <td>
             <input type="text" id="input_${i}_1" placeholder="${p.ua1}"> 
             <input type="text" id="input_${i}_2" placeholder="${p.ua2}">
@@ -145,19 +140,6 @@ const AntonymsTrainer = {
   skipRow(i) {
     const row = document.getElementById(`row_${i}`);
     if (row) row.remove();
-  },
-
-  refreshRow(i) {
-    const row = document.getElementById(`row_${i}`);
-    if (!row) return;
-    const randomPair = this.pairs[Math.floor(Math.random() * this.pairs.length)];
-    row.querySelector("td").innerHTML = 
-      `<button class="icon-btn" onclick="AntonymsTrainer.refreshRow(${i})">🔄</button> ${randomPair.ua1} — ${randomPair.ua2} <button class="icon-btn" onclick="AntonymsTrainer.skipRow(${i})">➡</button>`;
-    row.querySelectorAll("td")[1].innerHTML = `
-      <input type="text" id="input_${i}_1" placeholder="${randomPair.ua1}"> 
-      <input type="text" id="input_${i}_2" placeholder="${randomPair.ua2}">
-    `;
-    row.querySelectorAll("td")[2].innerHTML = "";
   }
 };
 
